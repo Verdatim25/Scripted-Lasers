@@ -7,6 +7,13 @@ Places an icon layer of the laser on the weapon, looks a little cursed for now s
 Attachable lasers can be seen in the details tab of the weapon and are highlighted when the weapon is hovered.  
 Unforunately I cant put it on too many weapons because many guns in GAMMA that have side rails already have lasers on by default.
 
+## CREDITS: 
+Demonized for his item details script  
+Raven for his icon layers script  
+Haruka for the bas laser toggle script (which i monkey patched)  
+BAS team? for the laser models (i dont remember where i got them).  
+You. for being the reason i make stuff!  
+
 ## INSTALLATION:  
 Install this mod via MO2, ideally put at end of load order, but it shouldn't matter. Made ONLY for GAMMA. I'll eventually make a dependencies list of mods for other modpacks / personal modlists.
 
