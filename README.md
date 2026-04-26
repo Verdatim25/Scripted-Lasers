@@ -43,3 +43,7 @@ Follow what i have done for the lasers in "mod_system_ver_laser_items.ltx". Firs
 ### ADDING NEW LASERS TO WEAPONS
 Firstly, turn on debug mode via the mcm. This should allow you to add any laser to any weapon regardless of its "scripted_lasers" field. Then add the desired laser onto the weapon of your choice. This should spawn the laser roughly in the middle of the model (the root bone) or in the values defined by its section if those values exists. Then adjust using the keybinds above until its in the position you want it to be in. Then finally press the "save_ltx" keybind (numpad 9 by default) and this should add your weapon section, parameters and ALL lasers of the "scripted_lasers" field of the weapon section to the "mod_system_ver_laser_script_cache.ltx" in your configs folder. If you want to remove a laser's ability to be attached, make sure to go to "mod_system_ver_laser_script_cache.ltx" and remove that laser's section from the field "scripted_lasers" for your weapon section. Also if you want to you can move these DLTX changes to another "mod_system_*.ltx".
 
+## CHANGELOG:  
+0.1 -- First release  
+0.1.1 -- Lowered costs of Lasers: PEQ15 from 40000 to 15000 and Blue LAM from 40000 to 15000  
+
