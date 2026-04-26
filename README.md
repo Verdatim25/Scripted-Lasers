@@ -19,6 +19,31 @@ You. for being the reason i make stuff!
 ## INSTALLATION:  
 Install this mod via MO2, ideally put at end of load order, but it shouldn't matter. Made ONLY for GAMMA. I'll eventually make a dependencies list of mods for other modpacks / personal modlists.
 
+## SUPPORTED WEAPONS:  
+Currently, this mod supports these weapons:  
+SVDS_PMC  
+SR25  
+RPK74 (the 60 round one, the 95 round one already has a laser)  
+Steppe Eagle (the one with the rail underneath that you can get from nimble)  
+G36K  
+Galil ACE52  
+K98 MOD  
+M4 Tactical  
+Remington 700  
+Remington 700 ModX Gen3  
+Remington 700 Magpul  
+Remington 700 Dear Hunter  
+Scar-H  
+Sig550 Custom  
+AK12  
+DTMDR Upgraded  
+RSH-12  
+DVL-10 (unsuppressed version)  
+
+DTMDR (position is a bit bad, sorry!)  
+UDP-9 (position is a bit bad, sorry!)  
+MP7 (position is a bit bad, sorry!)  
+
 ## REMOVING THIS MOD:  
 Since this mod adds new items and saves variables to items, you will need to use the item despawner script in the "gamedata//scripts//remove_items": called "remove_scripted_lasers.script"  
 Simply move this script from the "remove_items" folder into the main "scripts" folder and launch the game. Then enter your save and press the save button (F5 by default), you should then receive a message telling you how many items and variables were removed. Then you can deactivate the mod in MO2 and use the new save file that you got from saving earlier to continue playing the game.  
@@ -47,7 +72,7 @@ keys.display_variables = DIK_keys.DIK_RCONTROL (Displays the current pos, rot, a
 keys.reset_to_section = DIK_keys.DIK_BACKSLASH (Resets the current pos, rot, and scale values to the ones defined in the weapon section, if it cant find anything it resets to 0)  
 
 ### ADDING NEW LASER MODELS
-Follow what i have done for the lasers in "mod_system_ver_laser_items.ltx". Firstly, change the "attachment_icon_layer" to a 64x64 dds containing only the LAM you want, this is the icon layer shown on the weapon. Secondly, change the "scripted_model" to the model of your laser. Try your best to match the rail size and rail position to the two already made lasers so it fits nicely. Thirdly, change the cost and icons_texture (icon shown in inventory ui) to whatever you want. Finally, add it to the trader profiles by editing the presets in "gamedata\configs\items\trade\presets". "wp_lasers_preset.ltx" for WP traders and "nato_lasers_preset.ltx" for NATO traders.
+Follow what i have done for the lasers in "mod_system_ver_laser_items.ltx". Firstly, change the "attachment_icon_layer" to a 64x64 dds containing only the LAM you want, this is the icon layer shown on the weapon. Secondly, change the "scripted_model" to the model of your laser. Try your best to match the rail size and rail position to the two already made lasers so it fits nicely. Thirdly, change the cost and icons_texture (icon shown in inventory ui) to whatever you want. Finally, add it to the trader profiles by editing the presets in "gamedata\configs\items\trade\presets". "wp_lasers_preset.ltx" for WP traders and "nato_lasers_preset.ltx" for NATO traders. Finally, Add your lasers to the lasers_list table in the main script and their section into the "scripted_lasers" field into the weapons you want it to apply too.  
 
 ### ADDING NEW LASERS TO WEAPONS
 Firstly, turn on debug mode via the mcm. This should allow you to add any laser to any weapon regardless of its "scripted_lasers" field. Then add the desired laser onto the weapon of your choice. This should spawn the laser roughly in the middle of the model (the root bone) or in the values defined by its section if those values exists. Then adjust using the keybinds above until its in the position you want it to be in. Then finally press the "save_ltx" keybind (numpad 9 by default) and this should add your weapon section, parameters and ALL lasers of the "scripted_lasers" field of the weapon section to the "mod_system_ver_laser_script_cache.ltx" in your configs folder. If you want to remove a laser's ability to be attached, make sure to go to "mod_system_ver_laser_script_cache.ltx" and remove that laser's section from the field "scripted_lasers" for your weapon section. Also if you want to you can move these DLTX changes to another "mod_system_*.ltx".
