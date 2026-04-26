@@ -45,5 +45,5 @@ Firstly, turn on debug mode via the mcm. This should allow you to add any laser 
 
 ## CHANGELOG:  
 0.1 -- First release  
-0.1.1 -- Lowered costs of Lasers: PEQ15 from 40000 to 15000 and Blue LAM from 40000 to 15000  
+0.1.1 -- Lowered costs of Lasers: PEQ15 from 40000 to 15000 and Blue LAM from 40000 to 20000  
 
