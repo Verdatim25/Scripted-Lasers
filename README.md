@@ -18,7 +18,7 @@ Simply move this script from the "remove_items" folder into the main "scripts" f
 Turning on DEBUG in the MCM allows you to change the position, rotation and scale of the lasers and allows you to put any laser on any gun (for testing purposes) 
 
 ### KEYBINDS:  
-Here are the base keybinds (all configurable by MCM; also sorry i couldnt make a menu for this im too lazy):
+Here are the base keybinds (all configurable by MCM; also sorry i couldnt make a menu for this im too lazy):  
 keys.xup = DIK_keys.DIK_NUMPAD1 (Increase x pos or rot, depending on mode)  
 keys.yup = DIK_keys.DIK_NUMPAD2 (Increase y pos or rot, depending on mode)  
 keys.zup = DIK_keys.DIK_NUMPAD3 (Increase z pos or rot, depending on mode)  
