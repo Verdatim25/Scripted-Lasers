@@ -1,7 +1,7 @@
 # Scripted-Lasers
 Scripted Lasers Mod For Stalker GAMMA
 
-WILL PROBABLY BE REPLACED BY ANOMALY 1.6 AND ITS SCRIPTED MODULAR ATTACHMENT SYSTEM! (but who knows when thats coming out. You can use this for now I guess.)  
+WILL PROBABLY BE DEPRECATED BY ANOMALY 1.6 AND ITS SCRIPTED MODULAR ATTACHMENT SYSTEM! (but who knows when thats coming out. You can use this for now.)  
 
 Enables Scripted Lasers for weapons, attachable separate from scopes. Saves laser attachment via se_save_var to bind to the object.  
 Adds Lasers to NATO traders from lvl 1 (second level // 500 rep) and WP traders from lvl 2 (third level // 1000 rep).  
