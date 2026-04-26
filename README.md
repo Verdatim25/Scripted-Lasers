@@ -58,7 +58,7 @@ Firstly, turn on debug mode via the mcm. This should allow you to add any laser 
 
 ## TO DO:  
 Add new lasers  
-Make lasers affect stats  
+Make lasers affect weapon stats  
 Maybe make an attachable rail system? might be too hard  
 Allow moving the lasers along the rail without debug (looks cool)  
 Save the position of the attachment to the object variable if i do try to make the position customisable without debug  
