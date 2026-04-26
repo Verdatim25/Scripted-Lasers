@@ -40,9 +40,11 @@ DTMDR Upgraded
 RSH-12  
 DVL-10 (unsuppressed version)  
 
-DTMDR (position is a bit bad, sorry!)  
-UDP-9 (position is a bit bad, sorry!)  
-MP7 (position is a bit bad, sorry!)  
+Supported Weapons with bad positions (PR if you can make them better!):
+
+DTMDR  
+UDP-9  
+MP7  
 
 ## REMOVING THIS MOD:  
 Since this mod adds new items and saves variables to items, you will need to use the item despawner script in the "gamedata//scripts//remove_items": called "remove_scripted_lasers.script"  
