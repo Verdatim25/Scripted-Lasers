@@ -32,7 +32,7 @@ M4 Tactical
 Remington 700  
 Remington 700 ModX Gen3  
 Remington 700 Magpul  
-Remington 700 Dear Hunter  
+Remington 700 Deer Hunter  
 Scar-H  
 Sig550 Custom  
 AK12  
