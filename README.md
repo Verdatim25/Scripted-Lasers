@@ -4,7 +4,7 @@ Scripted Lasers Mod For Stalker GAMMA
 Enables Scripted Lasers for weapons, attachable separate from scopes. Saves laser attachment via se_save_var to bind to the object.  
 Adds Lasers to NATO traders from lvl 1 (second level // 500 rep) and WP traders from lvl 2 (third level // 1000 rep).  
 Places an icon layer of the laser on the weapon, looks a little cursed for now sorry.  
-Attachable lasers can be seen in the detais tab of the weapon and are highlighted when the weapon is hovered.  
+Attachable lasers can be seen in the details tab of the weapon and are highlighted when the weapon is hovered.  
 Unforunately I cant put it on too many weapons because many guns in GAMMA that have side rails already have lasers on by default.
 
 ## INSTALLATION:  
