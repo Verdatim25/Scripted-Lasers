@@ -21,7 +21,7 @@ Install this mod via MO2, ideally put at end of load order, but it shouldn't mat
 
 ## SUPPORTED WEAPONS:  
 Currently, this mod supports these weapons:  
-SVDS_PMC  
+SVDS Retribution  
 SR25  
 RPK74 (the 60 round one, the 95 round one already has a laser)  
 Steppe Eagle (the one with the rail underneath that you can get from nimble)  
