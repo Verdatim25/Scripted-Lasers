@@ -1,7 +1,7 @@
 # Scripted-Lasers
 Scripted Lasers Mod For Stalker GAMMA
 
-WILL PROBABLY BE REPLACED BY ANOMALY 1.6 AND ITS SCRIPTED MODULAR ATTACHMENT SYSTEM! (but who knows when thats coming out so for now you can use this)  
+WILL PROBABLY BE REPLACED BY ANOMALY 1.6 AND ITS SCRIPTED MODULAR ATTACHMENT SYSTEM! (but who knows when thats coming out. You can use this for now I guess.)  
 
 Enables Scripted Lasers for weapons, attachable separate from scopes. Saves laser attachment via se_save_var to bind to the object.  
 Adds Lasers to NATO traders from lvl 1 (second level // 500 rep) and WP traders from lvl 2 (third level // 1000 rep).  
@@ -56,3 +56,10 @@ Firstly, turn on debug mode via the mcm. This should allow you to add any laser 
 0.1 -- First release  
 0.1.1 -- Lowered costs of Lasers: PEQ15 from 40000 to 15000 and Blue LAM from 40000 to 20000  
 
+## TO DO:  
+Add new lasers  
+Make lasers affect stats  
+Maybe make an attachable rail system? might be too hard  
+Allow moving the lasers along the rail without debug (looks cool)  
+Save the position of the attachment to the object variable if i do try to make the position customisable without debug  
+Allow different attachment points to move the laser to and fro  
