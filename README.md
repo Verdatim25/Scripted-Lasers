@@ -20,7 +20,7 @@ You. for being the reason i make stuff!
 Install this mod via MO2, ideally put at end of load order, but it shouldn't matter. Made ONLY for GAMMA. I'll eventually make a dependencies list of mods for other modpacks / personal modlists.
 
 ## SUPPORTED WEAPONS:  
-Currently, this mod supports these weapons:  
+Currently, this mod supports these weapons (in GAMMA):  
 SVDS Retribution  
 SR25  
 RPK74 (the 60 round one, the 95 round one already has a laser)  
