@@ -19,9 +19,9 @@ Turning on DEBUG in the MCM allows you to change the position, rotation and scal
 
 ### KEYBINDS:  
 Here are the base keybinds (all configurable by MCM; also sorry i couldnt make a menu for this im too lazy):  
-keys.xup = DIK_keys.DIK_NUMPAD1 (Increase x pos or rot, depending on mode)  
-keys.yup = DIK_keys.DIK_NUMPAD2 (Increase y pos or rot, depending on mode)  
-keys.zup = DIK_keys.DIK_NUMPAD3 (Increase z pos or rot, depending on mode)  
+keys.xup = DIK_keys.DIK_NUMPAD1 (Increases x pos or rot, depending on mode)  
+keys.yup = DIK_keys.DIK_NUMPAD2 (Increases y pos or rot, depending on mode)  
+keys.zup = DIK_keys.DIK_NUMPAD3 (Increases z pos or rot, depending on mode)  
 keys.xdown = DIK_keys.DIK_NUMPAD4 (Decreases x pos or rot, depending on mode)  
 keys.ydown = DIK_keys.DIK_NUMPAD5 (Decreases y pos or rot, depending on mode)  
 keys.zdown = DIK_keys.DIK_NUMPAD6 (Decreases z pos or rot, depending on mode)  
