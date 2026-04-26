@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+
+	<string id="st_ver_laser_attachment_peq15">
+		<text>PEQ-15</text>
+	</string>
+	<string id="st_ver_laser_attachment_peq15_descr">
+		<text>
+			  A laser attachment meant to be added to a picatinny rail. Contains a toggleable red laser.
+		</text>
+	</string>
+	
+	<string id="st_ver_laser_attachment_blue">
+		<text>Blue LAM</text>
+	</string>
+	<string id="st_ver_laser_attachment_blue_descr">
+		<text>
+			  A laser attachment meant to be added to a picatinny rail. Contains a toggleable blue laser.
+		</text>
+	</string>
+	
+	<string id="st_laser_detach_ver">
+		<text>Detach LAM</text>
+	</string>
+	
+	<string id="st_ui_ver_lasers">
+		<text>Laser Aiming Modules</text>
+	</string>
+	
+	<!-- MCM -->
+	
+	<string id="ui_mcm_menu_ver_laser_attachment">
+		<text>Scripted Laser Attachments</text>
+	</string>
+	
+	<string id="ui_mcm_menu_ver_laser_attachment_title">
+		<text>Scripted Laser Attachments</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_enable_keybinds">
+		<text>Enable Keybinds</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_xup">
+		<text>X Position / Rotation Up</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_yup">
+		<text>Y Position / Rotation Up</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_zup">
+		<text>Z Position / Rotation Up</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_xdown">
+		<text>X Position / Rotation Down</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_ydown">
+		<text>Y Position / Rotation Down</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_zdown">
+		<text>Z Position / Rotation Down</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_mode_swap">
+		<text>Position / Rotation Mode Swap</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_scaleup">
+		<text>Scale Up</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_scaledown">
+		<text>Scale Down</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_precision_mode">
+		<text>Precision Mode</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_display_variables">
+		<text>Display Variables</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_reset">
+		<text>Reset To 0</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_reset_to_section">
+		<text>Reset To Section Variables</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_swap_model">
+		<text>Swap Models</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_save">
+		<text>Save Current Variables to Cache</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_copy">
+		<text>Copy Current Variables from Cache</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_save_ltx">
+		<text>Save Current Weapon Params to LTX</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_save_ltx_desc">
+		<text>Saves Current Weapon Params to mod_system_ver_laser_script_cache.ltx</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_debug">
+		<text>Enable Debug Logging</text>
+	</string>
+	
+	<string id="ui_mcm_ver_laser_attachment_keybind_debug_desc">
+		<text>Enables Extra Printing, allows any laser to be attached to any weapon and allows pos, rot, and scale adjustment using above keybinds</text>
+	</string>
+
+</string_table>

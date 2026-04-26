@@ -1,0 +1,51 @@
+-- =============================================================
+--
+--	   "Despawn utility"				-  script
+--
+--		  for   Anomaly	 				 5/3/2021
+-- 
+--	   created by			  bmblbx176  (Leviathan)
+--	
+-- Verdatim: move this script from here to the regular scripts folder and save to remove all lasers (if you want to remove them all)
+-- =============================================================
+function despawn_filtered_objects()
+	local DESPAWNED_OBJECTS_NUMBER = 0
+	local REMOVED_VARAIBLES = 0
+
+    for i = 1, 65534 do
+        local item = alife_object(i)
+		
+        if item then
+            local id = item.id
+			
+			local is_laser = ini_sys:r_string_ex(item:section(), "ver_laser")
+
+            if is_laser == "true" then
+                alife():release(alife():object(id))
+
+                if alife_object(id) then
+                    news_manager.send_tip(db.actor," ---  still exising,  despawn UNsuccessful   " .. alife_object(id):name(), nil, nil, 10000)
+                end
+
+                DESPAWNED_OBJECTS_NUMBER = DESPAWNED_OBJECTS_NUMBER + 1
+            end
+			
+			if se_load_var(id, item:name(), "ver_laser") then
+				se_load_var(id, item:name(), "ver_laser", nil)
+				REMOVED_VARAIBLES = REMOVED_VARAIBLES + 1
+			end
+        end
+    end
+
+    --			news_manager.send_tip(db.actor,		"Successfully removed %c[yellow]"  ..  DESPAWNED_OBJECTS_NUMBER  ..  "%c[default] mutants from the savegame.   ( ALL current mutants )"	   	, nil, nil,		10000	)
+
+    --			news_manager.send_tip(db.actor,		"Successfully removed %c[yellow]"  ..  DESPAWNED_OBJECTS_NUMBER  ..  "%c[default] non-Anomaly mutants from the savegame.   ( VOLK, MEDVED, PIRANHA, BIRDS, GERMAN SHEPHERD, TARK )"	   	, nil, nil,		10000	)
+
+    news_manager.send_tip(db.actor, "Successfully removed %c[yellow]" .. DESPAWNED_OBJECTS_NUMBER .. "%c[default] lasers from savedgame", nil, nil, 10000)
+	news_manager.send_tip(db.actor, "Successfully removed %c[yellow]" .. REMOVED_VARAIBLES .. "%c[default] saved weapon variables from savedgame", nil, nil, 10000)
+
+end
+
+function on_game_start()
+    RegisterScriptCallback("save_state", despawn_filtered_objects)
+end

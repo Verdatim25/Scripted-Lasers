@@ -1,0 +1,510 @@
+-- hello !
+
+-- real messy. ill redo this someday if real scripted attachments doesnt come out anytime soon
+
+local lasers_list = {"ver_laser_attachment_peq15", "ver_laser_attachment_blue"}
+
+local function name_condition_function(obj, bag, mode)
+	if mode ~= "inventory" then return false end
+	if not obj then return end
+	local wpn_id = obj:id()
+	local wpn_name = obj:name()
+	local var = se_load_var(wpn_id, wpn_name, "ver_laser")
+	if var then return true end
+end
+
+local function name_function(obj, bag, mode)
+	return game.translate_string("st_laser_detach_ver")
+end
+
+local function detach_laser(obj, bag, mode)
+	--if mode ~= "inventory" then return false end
+	if not obj then return end
+	local wpn_id = obj:id()
+	local wpn_name = obj:name()
+	local var = se_load_var(wpn_id, wpn_name, "ver_laser")
+	
+	if var then
+	-- credits to NTLP
+	alife_create_item(var.section, db.actor)
+	se_save_var(wpn_id, wpn_name, "ver_laser", nil)
+	wpn_table[wpn_id] = nil
+	obj:remove_attachment("ver_laser")
+	return true
+	end
+end
+
+-- thank you raven!
+local function ver_laser_icon_layer(cell, obj, section)
+	if not obj or not obj.name then return end
+	--printdbg("cell is %s! obj is %s! section is %s!", cell, obj:name(), section)
+	local wpn_id = obj:id()
+	local wpn_name = obj:name()
+	local var = se_load_var(wpn_id, wpn_name, "ver_laser")
+	local tble = {}
+	if var then
+		local axis = utils_xml.get_item_axis(section)
+		print_r(axis)
+		tble = {texture = var.icon_layer, x = axis.w - 75, y = axis.h - 45, w = 50, h = 50}
+		printdbg("tried to attach icon layer!")
+	end
+	return tble
+end
+
+rax_icon_layers.register("ver_laser_icon_layer", ver_laser_icon_layer)
+
+function on_option_change()
+	keybind_xup = ui_mcm.get("ver_laser_attachment/keybind_xup")
+	keybind_yup = ui_mcm.get("ver_laser_attachment/keybind_yup")
+	keybind_zup = ui_mcm.get("ver_laser_attachment/keybind_zup")
+	keybind_xdown = ui_mcm.get("ver_laser_attachment/keybind_xdown")
+	keybind_ydown = ui_mcm.get("ver_laser_attachment/keybind_ydown")
+	keybind_zdown = ui_mcm.get("ver_laser_attachment/keybind_zdown")
+	keybind_mode_swap = ui_mcm.get("ver_laser_attachment/keybind_mode_swap")
+	keybind_scaleup = ui_mcm.get("ver_laser_attachment/keybind_scaleup")
+	keybind_scaledown = ui_mcm.get("ver_laser_attachment/keybind_scaledown")
+	keybind_precision_mode = ui_mcm.get("ver_laser_attachment/keybind_precision_mode")
+	keybind_reset = ui_mcm.get("ver_laser_attachment/keybind_reset")
+	keybind_reset_to_section = ui_mcm.get("ver_laser_attachment/keybind_reset_to_section")
+	keybind_swap_model = ui_mcm.get("ver_laser_attachment/keybind_swap_model")
+	keybind_save = ui_mcm.get("ver_laser_attachment/keybind_save")
+	keybind_copy = ui_mcm.get("ver_laser_attachment/keybind_copy")
+	keybind_save_ltx = ui_mcm.get("ver_laser_attachment/keybind_save_ltx")
+	keybind_display_variables = ui_mcm.get("ver_laser_attachment/keybind_display_variables")
+	DEBUG = ui_mcm.get("ver_laser_attachment/debug")
+	USE_KEYBINDS = ui_mcm.get("ver_laser_attachment/enable_keybinds")
+end
+
+function printdbg(text, ...)
+	if DEBUG then
+		printf(text, ...)
+	end
+end
+
+function send_news(...)
+	if DEBUG then
+		news_manager.send_tip(...)
+	end
+end
+
+
+ini_cache = {}
+function on_game_start()
+	--RegisterScriptCallback("actor_on_jump", actor_on_jump)
+	RegisterScriptCallback("actor_on_hud_animation_play", actor_on_hud_animation_play)
+	--RegisterScriptCallback("on_key_press", on_key_press)
+	ini_cache = ini_file("mod_system_ver_laser_script_cache.ltx")
+	RegisterScriptCallback("on_key_hold", on_key_hold)
+	
+	RegisterScriptCallback("ActorMenu_on_item_drag_drop", ActorMenu_on_item_drag_drop)
+	
+	custom_functor_autoinject.add_functor("ver_laser_attachment", name_condition_function, name_function, nil, detach_laser, false)
+	
+	RegisterScriptCallback("on_option_change", on_option_change)
+	RegisterScriptCallback("on_game_load", on_option_change)
+	
+	-- highlighting
+	RegisterScriptCallback("ActorMenu_on_item_focus_receive", ActorMenu_on_item_focus_receive)
+end
+
+local focus_tbl = {}
+local focus_last_sec
+function ActorMenu_on_item_focus_receive(obj)
+	printdbg("ActorMenu_on_item_focus_receive callback called!")
+	if not IsWeapon(obj) then return end
+	local sec_focus = obj:section()
+	if (focus_last_sec ~= sec_focus) then
+		local id = obj:id()
+		focus_last_sec = sec_focus
+		empty_table(focus_tbl)
+		
+		local parent_sec = ini_sys:r_string_ex(sec_focus,"parent_section") or sec_focus
+		local lasers = ini_sys:r_string_ex(sec_focus, "scripted_lasers")
+		if not lasers or lasers == "" then printdbg("no lasers found!"); return end
+		lasers = str_explode(lasers, ",")
+		print_r(lasers)
+		for i, v in pairs(lasers) do
+			focus_tbl[#focus_tbl + 1] = v
+		end
+	end
+	local inventory = GetActorMenu()
+	if not ((#focus_tbl > 0) or (inventory and inventory:IsShown())) then
+		return
+	end
+	for i=1,#focus_tbl do 
+		inventory:highlight_section_in_slot(focus_tbl[i],EDDListType.iActorBag)
+		inventory:highlight_section_in_slot(focus_tbl[i],EDDListType.iPartnerTradeBag)
+		inventory:highlight_section_in_slot(focus_tbl[i],EDDListType.iDeadBodyBag)
+		inventory:highlight_section_in_slot(focus_tbl[i],EDDListType.iActorTrade)
+		inventory:highlight_section_in_slot(focus_tbl[i],EDDListType.iPartnerTrade)
+	end
+end
+
+
+function ActorMenu_on_item_drag_drop(obj, wpn, no1, no2)
+	printdbg("wpn is %s, obj is %s, no1 is %s, no2 is %s", wpn:name(), obj:name(), no1, no2)
+	if not wpn:is_weapon() then return end
+	local lasers_list = ini_sys:r_string_ex(wpn:section(), "scripted_lasers") or ""
+	lasers_list = str_explode(lasers_list, ",")
+	local laser_bool = false
+	for i,v in pairs(lasers_list) do
+		if obj:section() == v then
+			laser_bool = true
+		end
+	end
+	if DEBUG then
+		laser_bool = true
+	end
+	if ini_sys:r_string_ex(obj:section(), "ver_laser") == "true" and laser_bool then
+		local id = wpn:id()
+		local name = wpn:name()
+		local check = se_load_var(id, name, "ver_laser")
+		local sound_bool = true
+		if check then 
+			if not type(check) == "table" then return end
+			if check.section ~= obj:section() then
+				detach_laser(wpn)
+				sound_bool = false
+			elseif check.section == obj:section() then
+				return
+			end
+		end
+		local tble = {}
+		tble.section = obj:section()
+		tble.icon_layer = ini_sys:r_string_ex(obj:section(), "attachment_icon_layer")
+		se_save_var(id, name, "ver_laser", tble)
+		local obj_id = obj:id()
+		alife_release_id(obj_id)
+		local snd_laser = sound_object("interface\\items\\inv_items_addon_1_bkp")
+		actor_on_hud_animation_play({["anm_name"] = "anm_show"}, wpn)
+		printdbg("tried to attach laser on drag drop!")
+		if not sound_bool then return end
+		snd_laser:play(db.actor, 0, sound_object.s2d)
+	end
+end
+
+wpn_table = {}
+
+local stop = false
+
+function on_key_hold(key)
+	printdbg("on_key_hold callback called! key is %s", key)
+	if not stop then
+		stop = true
+		printdbg("setting time event for key hold!")
+		CreateTimeEvent("hold_key_ver", "hold_key", 0.1, function(key)
+			printdbg("time event called!")
+			stop = false
+			on_key_press(key)
+			return true
+		end, key)
+	end
+end
+
+function actor_on_hud_animation_play(anim_table, wpn)
+	if not starts_with(anim_table.anm_name, "anm_show") then printdbg("not the right anim!"); return end
+	printdbg("actor_on_hud_animation_play callback called!")
+	if not db.actor:active_item() or not db.actor:active_item():is_weapon() then return end
+	wpn = db.actor:active_item()
+	wpn_id = wpn:id()
+	wpn_name = wpn:name()
+	local laser = se_load_var(wpn_id, wpn_name, "ver_laser")
+	if not laser then 
+		wpn:remove_attachment("ver_laser")
+	return end
+	if wpn:get_attachment("ver_laser") then printdbg("wpn already has attachment!") return end
+	--test_att = db.actor:add_attachment("ver_laser", "anomaly_weapons\\ver_laser\\wpn_laser")
+	if laser.section == "ver_laser_attachment_peq15" then
+		local model = ini_sys:r_string_ex(laser.section, "scripted_model")
+		if not model then return end
+		test_att = wpn:add_attachment("ver_laser", model)
+	elseif laser.section == "ver_laser_attachment_blue" then
+		local model = ini_sys:r_string_ex(laser.section, "scripted_model")
+		if not model then return end
+		test_att = wpn:add_attachment("ver_laser", model)
+	else
+		test_att = wpn:add_attachment("ver_laser", "anomaly_weapons\\ver_laser\\wpn_laser")
+	end
+	if not wpn_table[wpn_id] then
+		wpn_table[wpn_id] = {test_att}
+	end
+	if not test_att then return end
+	local att_type = test_att:get_type()
+	printdbg("att_type is %s!", att_type)
+	if att_type ~= 0 then
+		test_att:set_type(0)
+	end
+	bone_id = test_att:get_parent_bone()
+	printdbg("bone_id is %s!", bone_id)
+	if bone_id ~= 0 then
+		test_att:set_parent_bone(0)
+	end
+	local position = test_att:get_position()
+	local rotation = test_att:get_rotation()
+	printdbg("position is %s! rotation is %s!", position, rotation)
+	
+	local sec = wpn:section()
+	
+	local sec_pos_x = ini_sys:r_float_ex(sec, "attachment_pos_x") or 0
+	local sec_pos_y = ini_sys:r_float_ex(sec, "attachment_pos_y") or 0
+	local sec_pos_z = ini_sys:r_float_ex(sec, "attachment_pos_z") or 0
+	
+	local sec_scale = ini_sys:r_float_ex(sec, "attachment_scale") or 1
+	
+	local sec_rot_x = ini_sys:r_float_ex(sec, "attachment_rot_x") or 0
+	local sec_rot_y = ini_sys:r_float_ex(sec, "attachment_rot_y") or 0
+	local sec_rot_z = ini_sys:r_float_ex(sec, "attachment_rot_z") or 0
+	wpn_table[wpn_id][2] = {["x"] = sec_pos_x, ["y"] = sec_pos_y, ["z"] = sec_pos_z, ["scale"] = sec_scale, ["rx"] = sec_rot_x, ["ry"] = sec_rot_y, ["rz"] = sec_rot_z}
+	
+	if wpn_table[wpn_id][2] then
+		printdbg("assigning pos, rot, and scale values that already exist!")
+		test_att:set_position(wpn_table[wpn_id][2].x, wpn_table[wpn_id][2].y, wpn_table[wpn_id][2].z)
+		test_att:set_rotation(wpn_table[wpn_id][2].rx, wpn_table[wpn_id][2].ry, wpn_table[wpn_id][2].rz)
+		test_att:set_scale(wpn_table[wpn_id][2].scale, wpn_table[wpn_id][2].scale, wpn_table[wpn_id][2].scale)
+	end
+end
+
+local position_table = {}
+position_table.x = 0
+position_table.y = 0
+position_table.z = 0
+
+position_table.scale = 1
+
+local key_mode = 1
+
+local cache = {}
+
+local precision_mode = 0
+local position_adjustment = 0.005
+local rot_adjustment = 5
+local scale_adjustment = 0.05
+
+function on_key_press(key)
+	if not DEBUG then return end
+	if not USE_KEYBINDS then return end
+	--printdbg("key is %s!", key)
+	local bind = dik_to_bind(key)
+	local wpn = db.actor:active_item()
+	if not wpn then return end
+	local wpn_id = wpn:id()
+	if not wpn_table[wpn_id] then return end
+	local attachment = wpn_table[wpn_id][1]
+	if not attachment then return end
+	if not wpn_table[wpn_id][2] then return end
+	--print_r(wpn_table[wpn_id][2])
+	
+	if key == keybind_mode_swap then
+		if key_mode == 1 then
+			key_mode = 2
+			send_news(db.actor, "Rotation Adjustment Mode On", nil, nil, 5000)
+		elseif key_mode == 2 then
+			key_mode = 1
+			send_news(db.actor, "Position Adjustment Mode On", nil, nil, 5000)
+		end
+	end
+	
+	if key == keybind_precision_mode then
+		if precision_mode == 0 then
+			precision_mode = 1
+			send_news(db.actor, "Precision Mode On", nil, nil, 5000)
+		elseif precision_mode == 1 then
+			precision_mode = 0
+			send_news(db.actor, "Precision Mode Off", nil, nil, 5000)
+		end
+	end
+	
+	if precision_mode == 0 then
+		position_adjustment = 0.005
+		rot_adjustment = 5
+		scale_adjustment = 0.05
+	elseif precision_mode == 1 then
+		position_adjustment = 0.001
+		rot_adjustment = 0.1
+		scale_adjustment = 0.01
+	end
+	
+	
+	
+	if key_mode == 1 then
+		if key == keybind_xup then
+			-- x is left right, y is up down, z is forward backwards (sorry too used to blender)
+			wpn_table[wpn_id][2].x = wpn_table[wpn_id][2].x + position_adjustment
+			local msg = string.format("Increased X position by %s", position_adjustment)
+			send_news(db.actor, msg, nil, nil, 5000)
+		end
+		if key == keybind_yup then
+			wpn_table[wpn_id][2].y = wpn_table[wpn_id][2].y + position_adjustment
+			local msg = string.format("Increased Y position by %s", position_adjustment)
+			send_news(db.actor, msg, nil, nil, 5000)
+		end
+		if key == keybind_zup then
+			wpn_table[wpn_id][2].z = wpn_table[wpn_id][2].z + position_adjustment
+			local msg = string.format("Increased Z position by %s", position_adjustment)
+			send_news(db.actor, msg, nil, nil, 5000)
+		end
+		if key == keybind_xdown then
+			wpn_table[wpn_id][2].x = wpn_table[wpn_id][2].x - position_adjustment
+			local msg = string.format("Decreased X position by %s", position_adjustment)
+			send_news(db.actor, msg, nil, nil, 5000)
+		end
+		if key == keybind_ydown then
+			wpn_table[wpn_id][2].y = wpn_table[wpn_id][2].y - position_adjustment
+			local msg = string.format("Decreased Y position by %s", position_adjustment)
+			send_news(db.actor, msg, nil, nil, 5000)
+		end
+		if key == keybind_zdown then
+			wpn_table[wpn_id][2].z = wpn_table[wpn_id][2].z - position_adjustment
+			local msg = string.format("Decreased Z position by %s", position_adjustment)
+			send_news(db.actor, msg, nil, nil, 5000)
+		end
+	end
+	if key_mode == 2 then
+		if key == keybind_xup then
+			-- x is left right, y is up down, z is forward backwards
+			wpn_table[wpn_id][2].rx = wpn_table[wpn_id][2].rx + rot_adjustment
+			local msg = string.format("Increased X rotation by %s", rot_adjustment)
+			send_news(db.actor, msg, nil, nil, 5000)
+		end
+		if key == keybind_yup then
+			wpn_table[wpn_id][2].ry = wpn_table[wpn_id][2].ry + rot_adjustment
+			local msg = string.format("Increased Y rotation by %s", rot_adjustment)
+			send_news(db.actor, msg, nil, nil, 5000)
+		end
+		if key == keybind_zup then
+			wpn_table[wpn_id][2].rz = wpn_table[wpn_id][2].rz + rot_adjustment
+			local msg = string.format("Increased Z rotation by %s", rot_adjustment)
+			send_news(db.actor, msg, nil, nil, 5000)
+		end
+		if key == keybind_xdown then
+			wpn_table[wpn_id][2].rx = wpn_table[wpn_id][2].rx - rot_adjustment
+			local msg = string.format("Decreased X rotation by %s", rot_adjustment)
+			send_news(db.actor, msg, nil, nil, 5000)
+		end
+		if key == keybind_ydown then
+			wpn_table[wpn_id][2].ry = wpn_table[wpn_id][2].ry - rot_adjustment
+			local msg = string.format("Decreased Y rotation by %s", rot_adjustment)
+			send_news(db.actor, msg, nil, nil, 5000)
+		end
+		if key == keybind_zdown then
+			wpn_table[wpn_id][2].rz = wpn_table[wpn_id][2].rz - rot_adjustment
+			local msg = string.format("Decreased Z rotation by %s", rot_adjustment)
+			send_news(db.actor, msg, nil, nil, 5000)
+		end
+	end
+	
+	
+	if key == keybind_scaledown then
+		wpn_table[wpn_id][2].scale = wpn_table[wpn_id][2].scale - scale_adjustment
+		local msg = string.format("Decreased scale by %s", scale_adjustment)
+		send_news(db.actor, msg, nil, nil, 5000)
+	end
+	if key == keybind_scaleup then
+		wpn_table[wpn_id][2].scale = wpn_table[wpn_id][2].scale + scale_adjustment
+		local msg = string.format("Increased scale by %s", scale_adjustment)
+		send_news(db.actor, msg, nil, nil, 5000)
+	end
+	
+	
+	
+	
+	if key == keybind_reset then
+		attachment:set_position(0, 0, 0)
+		attachment:set_rotation(0, 0, 0)
+		attachment:set_scale(1, 1, 1)
+		wpn_table[wpn_id][2].x = 0
+		wpn_table[wpn_id][2].y = 0
+		wpn_table[wpn_id][2].z = 0
+		wpn_table[wpn_id][2].rx = 0
+		wpn_table[wpn_id][2].ry = 0
+		wpn_table[wpn_id][2].rz = 0
+		wpn_table[wpn_id][2].scale = 1
+		send_news(db.actor, "Reset Adjustments To Zero", nil, nil, 5000)
+	end
+	
+	if key == keybind_save then
+		for i,v in pairs(wpn_table[wpn_id][2]) do
+			cache[i] = v 
+		end
+		send_news(db.actor, "Saved Laser Attachment Variables To Cache", nil, nil, 5000)
+	end
+	
+	if key == keybind_copy then
+		for i,v in pairs(cache) do
+			wpn_table[wpn_id][2][i] = v 
+		end
+		send_news(db.actor, "Copied Laser Attachment Variables To Cache", nil, nil, 5000)
+	end
+	
+	attachment:set_position(wpn_table[wpn_id][2].x, wpn_table[wpn_id][2].y, wpn_table[wpn_id][2].z)
+	attachment:set_scale(wpn_table[wpn_id][2].scale, wpn_table[wpn_id][2].scale, wpn_table[wpn_id][2].scale)
+	attachment:set_rotation(wpn_table[wpn_id][2].rx, wpn_table[wpn_id][2].ry, wpn_table[wpn_id][2].rz)
+	
+	if key == keybind_swap_model then
+		local path = attachment:get_model()
+		printdbg("path is %s!", path)
+		if path == "anomaly_weapons\\ver_laser\\wpn_laser" then
+			printdbg("tried to swap laser to laser2!")
+			attachment:set_model("anomaly_weapons\\ver_laser\\wpn_laser2", false)
+		end
+		if path == "anomaly_weapons\\ver_laser\\wpn_laser2" then
+			printdbg("tried to swap laser2 to laser!")
+			attachment:set_model("anomaly_weapons\\ver_laser\\wpn_laser", false)
+		end
+		send_news(db.actor, "Swapped Models", nil, nil, 5000)
+		local snd_laser = sound_object("interface\\inv_torch")
+		snd_laser:play(db.actor, 0, sound_object.s2d)
+	end
+	
+	if key == keybind_display_variables then
+		local msg = string.format("pos_x is %s, pos_y is %s, pos_z is %s, rot_x is %s, rot_y is %s, rot_z is %s, scale is %s.", wpn_table[wpn_id][2].x, wpn_table[wpn_id][2].y, wpn_table[wpn_id][2].z, wpn_table[wpn_id][2].rx, wpn_table[wpn_id][2].ry, wpn_table[wpn_id][2].rz, wpn_table[wpn_id][2].scale)
+		printdbg(msg)
+		send_news(db.actor, msg, nil, nil, 15000)
+	end
+	
+	if key == keybind_save_ltx then
+		local path = getFS():update_path('$game_config$', '') .. "mod_system_ver_laser_script_cache.ltx"
+		local ltx = io.open(path, "a")
+		if ltx then 
+			ltx:write("\n" .. "![" .. tostring(wpn:section()) .. "]\n")
+			ltx:write("attachment_pos_x = " .. tostring(wpn_table[wpn_id][2].x) .. "\n")
+			ltx:write("attachment_pos_y = " .. tostring(wpn_table[wpn_id][2].y) .. "\n")
+			ltx:write("attachment_pos_z = " .. tostring(wpn_table[wpn_id][2].z) .. "\n")
+			ltx:write("attachment_scale = " .. tostring(wpn_table[wpn_id][2].scale) .. "\n")
+			ltx:write("attachment_rot_x = " .. tostring(wpn_table[wpn_id][2].rx) .. "\n")
+			ltx:write("attachment_rot_y = " .. tostring(wpn_table[wpn_id][2].ry) .. "\n")
+			ltx:write("attachment_rot_z = " .. tostring(wpn_table[wpn_id][2].rz) .. "\n")
+			local lasers_list_ex = ""
+			for i, v in pairs(lasers_list) do
+				lasers_list_ex = lasers_list_ex .. v .. ", "
+			end
+			ltx:write("scripted_lasers = " .. lasers_list_ex .. "\n")
+			send_news(db.actor, "Saved Laser Variables to mod_system_ver_laser_script_cache.ltx", nil, nil, 5000)
+		end
+		ltx:close()
+	end
+	
+	if key == keybind_reset_to_section then
+		local sec = wpn:section()
+	
+		local sec_pos_x = ini_sys:r_float_ex(sec, "attachment_pos_x") or 0
+		local sec_pos_y = ini_sys:r_float_ex(sec, "attachment_pos_y") or 0
+		local sec_pos_z = ini_sys:r_float_ex(sec, "attachment_pos_z") or 0
+	
+		local sec_scale = ini_sys:r_float_ex(sec, "attachment_scale") or 1
+	
+		local sec_rot_x = ini_sys:r_float_ex(sec, "attachment_rot_x") or 0
+		local sec_rot_y = ini_sys:r_float_ex(sec, "attachment_rot_y") or 0
+		local sec_rot_z = ini_sys:r_float_ex(sec, "attachment_rot_z") or 0
+		wpn_table[wpn_id][2] = {["x"] = sec_pos_x, ["y"] = sec_pos_y, ["z"] = sec_pos_z, ["scale"] = sec_scale, ["rx"] = sec_rot_x, ["ry"] = sec_rot_y, ["rz"] = sec_rot_z}
+	
+		if wpn_table[wpn_id][2] then
+			printdbg("assigning pos, rot, and scale values from section!")
+			send_news(db.actor, "assigning pos, rot, and scale values from section!", nil, nil, 5000)
+			test_att:set_position(wpn_table[wpn_id][2].x, wpn_table[wpn_id][2].y, wpn_table[wpn_id][2].z)
+			test_att:set_rotation(wpn_table[wpn_id][2].rx, wpn_table[wpn_id][2].ry, wpn_table[wpn_id][2].rz)
+			test_att:set_scale(wpn_table[wpn_id][2].scale, wpn_table[wpn_id][2].scale, wpn_table[wpn_id][2].scale)
+		end
+	end
+end
+		

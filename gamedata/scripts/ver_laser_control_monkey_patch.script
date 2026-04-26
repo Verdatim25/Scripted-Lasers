@@ -1,0 +1,9 @@
+zzz_bas_laser_control.has_laser = function(section)
+	local wpn = db.actor:active_item()
+	if not wpn then return ini_sys:r_bool_ex(section, "laser_status", false) end
+	local wpn_id = wpn:id()
+	local wpn_name = wpn:name()
+	local check = se_load_var(wpn_id, wpn_name, "ver_laser") or ini_sys:r_bool_ex(section, "laser_status", false)
+    return check
+end
+

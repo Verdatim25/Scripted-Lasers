@@ -1,0 +1,186 @@
+-- thank you raven!
+
+--[[ cute table for dik keys because i cant remember
+class DIK_keys {
+    const DIK_0 = 11
+    const DIK_1 = 2
+    const DIK_2 = 3
+    const DIK_3 = 4
+    const DIK_4 = 5
+    const DIK_5 = 6
+    const DIK_6 = 7
+    const DIK_7 = 8
+    const DIK_8 = 9
+    const DIK_9 = 10
+    const DIK_A = 30
+    const DIK_ADD = 78
+    const DIK_APOSTROPHE = 40
+    const DIK_APPS = 221
+    const DIK_AT = 145
+    const DIK_AX = 150
+    const DIK_B = 48
+    const DIK_BACK = 14
+    const DIK_BACKSLASH = 43
+    const DIK_C = 46
+    const DIK_CAPITAL = 58
+    const DIK_CIRCUMFLEX = 144
+    const DIK_COLON = 146
+    const DIK_COMMA = 51
+    const DIK_CONVERT = 121
+    const DIK_D = 32
+    const DIK_DECIMAL = 83
+    const DIK_DELETE = 211
+    const DIK_DIVIDE = 181
+    const DIK_DOWN = 208
+    const DIK_E = 18
+    const DIK_END = 207
+    const DIK_EQUALS = 13
+    const DIK_ESCAPE = 1
+    const DIK_F = 33
+    const DIK_F1 = 59
+    const DIK_F10 = 68
+    const DIK_F11 = 87
+    const DIK_F12 = 88
+    const DIK_F13 = 100
+    const DIK_F14 = 101
+    const DIK_F15 = 102
+    const DIK_F2 = 60
+    const DIK_F3 = 61
+    const DIK_F4 = 62
+    const DIK_F5 = 63
+    const DIK_F6 = 64
+    const DIK_F7 = 65
+    const DIK_F8 = 66
+    const DIK_F9 = 67
+    const DIK_G = 34
+    const DIK_GRAVE = 41
+    const DIK_H = 35
+    const DIK_HOME = 199
+    const DIK_I = 23
+    const DIK_INSERT = 210
+    const DIK_J = 36
+    const DIK_K = 37
+    const DIK_KANA = 112
+    const DIK_KANJI = 148
+    const DIK_L = 38
+    const DIK_LBRACKET = 26
+    const DIK_LCONTROL = 29
+    const DIK_LEFT = 203
+    const DIK_LMENU = 56
+    const DIK_LSHIFT = 42
+    const DIK_LWIN = 219
+    const DIK_M = 50
+    const DIK_MINUS = 12
+    const DIK_MULTIPLY = 55
+    const DIK_N = 49
+    const DIK_NEXT = 209
+    const DIK_NOCONVERT = 123
+    const DIK_NUMLOCK = 69
+    const DIK_NUMPAD0 = 82
+    const DIK_NUMPAD1 = 79
+    const DIK_NUMPAD2 = 80
+    const DIK_NUMPAD3 = 81
+    const DIK_NUMPAD4 = 75
+    const DIK_NUMPAD5 = 76
+    const DIK_NUMPAD6 = 77
+    const DIK_NUMPAD7 = 71
+    const DIK_NUMPAD8 = 72
+    const DIK_NUMPAD9 = 73
+    const DIK_NUMPADCOMMA = 179
+    const DIK_NUMPADENTER = 156
+    const DIK_NUMPADEQUALS = 141
+    const DIK_O = 24
+    const DIK_P = 25
+    const DIK_PAUSE = 197
+    const DIK_PERIOD = 52
+    const DIK_PRIOR = 201
+    const DIK_Q = 16
+    const DIK_R = 19
+    const DIK_RBRACKET = 27
+    const DIK_RCONTROL = 157
+    const DIK_RETURN = 28
+    const DIK_RIGHT = 205
+    const DIK_RMENU = 184
+    const DIK_RSHIFT = 54
+    const DIK_RWIN = 220
+    const DIK_S = 31
+    const DIK_SCROLL = 70
+    const DIK_SEMICOLON = 39
+    const DIK_SLASH = 53
+    const DIK_SPACE = 57
+    const DIK_STOP = 149
+    const DIK_SUBTRACT = 74
+    const DIK_SYSRQ = 183
+    const DIK_T = 20
+    const DIK_TAB = 15
+    const DIK_U = 22
+    const DIK_UNDERLINE = 147
+    const DIK_UNLABELED = 151
+    const DIK_UP = 200
+    const DIK_V = 47
+    const DIK_W = 17
+    const DIK_X = 45
+    const DIK_Y = 21
+    const DIK_YEN = 125
+    const DIK_Z = 44
+    const MOUSE_1 = 337
+    const MOUSE_2 = 338
+    const MOUSE_3 = 339
+}
+
+keys used:
+
+]]
+
+-- base keys for old mcm versions
+local keys = {}
+keys.xup = DIK_keys.DIK_NUMPAD1
+keys.yup = DIK_keys.DIK_NUMPAD2
+keys.zup = DIK_keys.DIK_NUMPAD3
+keys.xdown = DIK_keys.DIK_NUMPAD4
+keys.ydown = DIK_keys.DIK_NUMPAD5
+keys.zdown = DIK_keys.DIK_NUMPAD6
+keys.mode_swap = DIK_keys.DIK_ADD
+keys.scaleup = DIK_keys.DIK_MULTIPLY
+keys.scaledown = DIK_keys.DIK_DIVIDE
+keys.precision_mode = DIK_keys.DIK_DECIMAL
+keys.reset = DIK_keys.DIK_NUMPAD8
+keys.swap_model = DIK_keys.DIK_SUBTRACT
+keys.save = DIK_keys.DIK_RSHIFT
+keys.copy = DIK_keys.DIK_RETURN
+keys.save_ltx = DIK_keys.DIK_NUMPAD9
+
+keys.display_variables = DIK_keys.DIK_RCONTROL
+
+keys.reset_to_section = DIK_keys.DIK_BACKSLASH
+
+
+-- man i love modding
+function on_mcm_load()
+  op = { 
+     id = "ver_laser_attachment", sh = true, gr =
+      {
+        { id = "ver_laser_attachment_title", type = "slide", text = "ui_mcm_menu_ver_laser_attachment_title", link = "ui_options_slider_player", size = {512, 50}, spacing = 20 },
+		{ id = "enable_keybinds", type = "check", val = 1, def = true, },
+		{id = "keybind_xup", type = "key_bind", val = 2, def= keys.xup},
+		{id = "keybind_yup", type = "key_bind", val = 2, def= keys.yup},
+		{id = "keybind_zup", type = "key_bind", val = 2, def= keys.zup},
+		{id = "keybind_xdown", type = "key_bind", val = 2, def= keys.xdown},
+		{id = "keybind_ydown", type = "key_bind", val = 2, def= keys.ydown},
+		{id = "keybind_zdown", type = "key_bind", val = 2, def= keys.zdown},
+		{id = "keybind_mode_swap", type = "key_bind", val = 2, def= keys.mode_swap},
+		{id = "keybind_scaleup", type = "key_bind", val = 2, def= keys.scaleup},
+		{id = "keybind_scaledown", type = "key_bind", val = 2, def= keys.scaledown},
+		{id = "keybind_precision_mode", type = "key_bind", val = 2, def= keys.precision_mode},
+		{id = "keybind_display_variables", type = "key_bind", val = 2, def= keys.display_variables},
+		{id = "keybind_reset", type = "key_bind", val = 2, def= keys.reset},
+		{id = "keybind_reset_to_section", type = "key_bind", val = 2, def= keys.reset_to_section},
+		{id = "keybind_swap_model", type = "key_bind", val = 2, def= keys.swap_model},
+		{id = "keybind_save", type = "key_bind", val = 2, def= keys.save},
+		{id = "keybind_copy", type = "key_bind", val = 2, def= keys.copy},
+		{id = "keybind_save_ltx", type = "key_bind", val = 2, def= keys.save_ltx},
+		{ id = "debug", type = "check", val = 1, def = false, },
+      }
+    }
+  return op
+end
